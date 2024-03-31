@@ -44,6 +44,20 @@ namespace lab73
 
 internal static class Program
 {
+    static void GroupSort(Team[] Group)
+    {
+        for (int i = 1; i < Group.Length; i++)
+        {
+            Team x = Group[i];
+            int j = i - 1;
+            while (j >= 0 && Group[j].Score < x.Score)
+            {
+                Group[j + 1] = Group[j];
+                j--;
+            }
+            Group[j + 1] = x;
+        }
+    }
     static void Main()
     {
         //creating 2 groups
@@ -79,30 +93,9 @@ internal static class Program
             new FemaleTeam(23, 4)
         };
 
-        //sorting groups by teams scores - insertion
-        for (int i = 1; i < MaleGroup.Length; i++)
-        {
-            MaleTeam x = MaleGroup[i];
-            int j = i - 1;
-            while (j >= 0 && MaleGroup[j].Score < x.Score)
-            {
-                MaleGroup[j + 1] = MaleGroup[j];
-                j--;
-            }
-            MaleGroup[j + 1] = x;
-        }
-
-        for (int i = 1; i < FemaleGroup.Length; i++)
-        {
-            FemaleTeam x = FemaleGroup[i];
-            int j = i - 1;
-            while (j >= 0 && FemaleGroup[j].Score < x.Score)
-            {
-                FemaleGroup[j + 1] = FemaleGroup[j];
-                j--;
-            }
-            FemaleGroup[j + 1] = x;
-        }
+        //sorting groups by teams scores
+        GroupSort(MaleGroup);
+        GroupSort(FemaleGroup);
 
         //creating sorted array with elements of top-6's
         Team[] FinalGroup = new Team[12];
@@ -119,17 +112,7 @@ internal static class Program
         }
 
         //sorting final array
-        for (int i = 1; i < FinalGroup.Length; i++)
-        {
-            Team x = FinalGroup[i];
-            int j = i - 1;
-            while (j >= 0 && FinalGroup[j].Score < x.Score)
-            {
-                FinalGroup[j + 1] = FinalGroup[j];
-                j--;
-            }
-            FinalGroup[j + 1] = x;
-        }
+        GroupSort(FinalGroup);
 
         //writing final array
         for (int i = 0; i < FinalGroup.Length; i++)
