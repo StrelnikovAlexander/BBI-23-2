@@ -58,6 +58,37 @@ internal static class Program
             Group[j + 1] = x;
         }
     }
+
+    static void MergeGroups(Team[] Group1, Team[] Group2, Team[] FinalGroup)
+    {
+        int i = 0, j = 0, k = 0;
+        while (i < 6 && j < 6)
+        {
+            if (Group1[i].Score >= Group2[j].Score)
+            {
+                FinalGroup[k] = Group1[i];
+                i++; k++;
+            }
+            else
+            {
+                FinalGroup[k] = Group2[j];
+                j++; k++;
+            }
+        }
+
+        while (i < 6)
+        {
+            FinalGroup[k] = Group2[i];
+            i++; k++;
+        }
+
+        while (j < 6)
+        {
+            FinalGroup[k] = Group2[j];
+            j++; k++;
+        }
+    }
+
     static void Main()
     {
         //creating 2 groups
@@ -98,21 +129,24 @@ internal static class Program
         GroupSort(FemaleGroup);
 
         //creating sorted array with elements of top-6's
-        Team[] FinalGroup = new Team[12];
-        int k = 0;
-        for (int i = 0; i < 6; i++)
-        {
-            FinalGroup[k] = MaleGroup[i];
-            k++;
-        }
-        for (int i = 0; i < 6; i++)
-        {
-            FinalGroup[k] = FemaleGroup[i];
-            k++;
-        }
+        //Team[] FinalGroup = new Team[12];
+        //int k = 0;
+        //for (int i = 0; i < 6; i++)
+        //{
+        //    FinalGroup[k] = MaleGroup[i];
+        //    k++;
+        //}
+        //for (int i = 0; i < 6; i++)
+        //{
+        //    FinalGroup[k] = FemaleGroup[i];
+        //    k++;
+        //}
 
         //sorting final array
-        GroupSort(FinalGroup);
+        //GroupSort(FinalGroup);
+
+        Team[] FinalGroup = new Team[12];
+        MergeGroups(MaleGroup, FemaleGroup, FinalGroup);
 
         //writing final array
         for (int i = 0; i < FinalGroup.Length; i++)
