@@ -21,34 +21,6 @@ namespace lab71
         {
             Console.WriteLine($"{_name} {_countMissed}");
         }
-
-        public Student[] Sort(Student[] array, int leftIndex, int rightIndex)
-        {
-            int i = leftIndex;
-            int j = rightIndex;
-            int pivot = array[leftIndex];
-            while (i <= j)
-            {
-                while (array[i] < pivot)
-                    i++;
-
-                while (array[j] > pivot)
-                    j--;
-
-                if (i <= j)
-                {
-                    (array[i], array[j]) = (array[j], array[i]);
-                    i++;
-                    j--;
-                }
-            }
-
-            if (leftIndex < j)
-                SortArray(array, leftIndex, j);
-            if (i < rightIndex)
-                SortArray(array, i, rightIndex);
-            return array;
-        }
     }
 
     class Math : Student
@@ -103,6 +75,33 @@ namespace lab71
 
     internal static class Program
     {
+        static void Sort(Student[] array, int leftIndex, int rightIndex)
+        {
+            int i = leftIndex;
+            int j = rightIndex;
+            int pivot = array[leftIndex].CountMissed;
+            while (i <= j)
+            {
+                while (array[i].CountMissed > pivot)
+                    i++;
+
+                while (array[j].CountMissed < pivot)
+                    j--;
+
+                if (i <= j)
+                {
+                    (array[i], array[j]) = (array[j], array[i]);
+                    i++;
+                    j--;
+                }
+            }
+
+            if (leftIndex < j)
+                Sort(array, leftIndex, j);
+            if (i < rightIndex)
+                Sort(array, i, rightIndex);
+        }
+
         static void Main()
         {
             //creating arrays of students
@@ -127,13 +126,13 @@ namespace lab71
             //counting not passed students & creating arrays of not passed students
             int count = 0;
             for (int i = 0; i < math.Length; i++)
-                if (math[i].NotPassedMath)
+                if (math[i].NotPassedMath())
                     count++;
 
             Math[] notPassedMath = new Math[count];
             int j = 0;
             for (int i = 0; i < math.Length; i++)
-                if (math[i].NotPassedMath)
+                if (math[i].NotPassedMath())
                 {
                     notPassedMath[j] = math[i];
                     j++;
@@ -141,13 +140,13 @@ namespace lab71
 
             count = 0;
             for (int i = 0; i < inf.Length; i++)
-                if (inf[i].NotPassedInf)
+                if (inf[i].NotPassedInf())
                     count++;
 
             Informatics[] notPassedInf = new Informatics[count];
             j = 0;
             for (int i = 0; i < inf.Length; i++)
-                if (inf[i].NotPassedInf)
+                if (inf[i].NotPassedInf())
                 {
                     notPassedInf[j] = inf[i];
                     j++;
@@ -164,9 +163,9 @@ namespace lab71
             //    for (int k = 0; k < notPassedInf.Length - i - 1; k++)
             //        if (notPassedInf[k].CountMissed < notPassedInf[k + 1].CountMissed)
             //            (notPassedInf[k], notPassedInf[k + 1]) = (notPassedInf[k + 1], notPassedInf[k]);
-            
-            notPassedMath = notPassedMath.Sort(notPassedMath, 0, notPassedMath.Length);
-            notPassedInf = notPassedInf.Sort(notPassedInf, 0, notPassedInf.Length);
+
+            Sort(notPassedMath, 0, notPassedMath.Length - 1);
+            Sort(notPassedInf, 0, notPassedInf.Length - 1);
 
             //writing arrays of not passed students
             for (int i = 0; i < notPassedMath.Length; i++)
