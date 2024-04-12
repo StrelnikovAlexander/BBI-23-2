@@ -79,7 +79,7 @@ namespace lab71
         {
             int i = leftIndex;
             int j = rightIndex;
-            int pivot = array[leftIndex].CountMissed;
+            int pivot = array[rightIndex / 2].CountMissed;
             while (i <= j)
             {
                 while (array[i].CountMissed > pivot)
